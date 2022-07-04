@@ -46,6 +46,7 @@ export async function loginUser(req, res) {
 
   //Preciso pegar o user pelo email
   const user = await db.collection('usuarios').findOne({ email: usuario.email });
+  const name = user.name;
 
   if (user && bcrypt.compareSync(usuario.password, user.password)) {
     const token = uuid();
@@ -55,7 +56,7 @@ export async function loginUser(req, res) {
       userId: user._id
     });
 
-    return res.status(201).send({ token });
+    return res.status(201).send({ token, name });
   } else {
     return res.status(401).send('Senha ou email incorretos!');
   }
