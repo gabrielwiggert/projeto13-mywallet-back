@@ -17,10 +17,12 @@ export async function createPost(req, res) {
   const { authorization } = req.headers;
   const token = authorization?.replace('Bearer ', '');
 
+  /*
   const postSchema = joi.object({
     titulo: joi.string().required(),
     post: joi.number().required(),
-    type: joi.string().required()
+    type: joi.string().required(),
+    date: joi.string().required()
   });
 
   const { error } = postSchema.validate(post);
@@ -28,6 +30,7 @@ export async function createPost(req, res) {
   if (error) {
     return res.sendStatus(422);
   }
+  */
 
   const session = await db.collection('sessoes').findOne({ token });
 
