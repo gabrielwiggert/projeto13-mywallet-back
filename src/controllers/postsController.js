@@ -19,7 +19,8 @@ export async function createPost(req, res) {
 
   const postSchema = joi.object({
     titulo: joi.string().required(),
-    post: joi.string().required()
+    post: joi.number().required(),
+    type: joi.string().required()
   });
 
   const { error } = postSchema.validate(post);

@@ -9,7 +9,8 @@ export async function createUser(req, res) {
   const usuarioSchema = joi.object({
     name: joi.string().required(),
     email: joi.string().email().required(),
-    password: joi.string().required()
+    password: joi.string().required(),
+    confirm_password: joi.string().required()
   });
 
   const { error } = usuarioSchema.validate(usuario);
@@ -18,8 +19,10 @@ export async function createUser(req, res) {
     return res.sendStatus(422);
   }
 
-  // Caso tudo esteja validado vamos criptografar os dados antes
-  // de entrar no banco de dados.
+  if (usuario.password != usuario.confirm_password) {
+    return res.status(422).send('Digite a mesma senha nos dois campos');
+  }
+
   const senhaCriptografada = bcrypt.hashSync(usuario.password, 10);
 
   //Cadastrar de fato os dados no banco com o a senha criptografada.
